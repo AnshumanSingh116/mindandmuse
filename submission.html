@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Submit Your Work | Mind & Muse Gazette</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.35);
+      --blue-accent: #3b77c4;
+      --blue-dark: #2c66ac;
+      --shadow: rgba(0, 0, 0, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #cce7ff 0%, #e8f4ff 100%);
+      color: #1e1e1e;
+      overflow-x: hidden;
+    }
+    /* NAVBAR */
+    nav {
+      position: fixed;
+      top: 20px;
+      width: 90%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 18px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px);
+      border-radius: 16px;
+      box-shadow: 0 8px 20px var(--shadow);
+      z-index: 10;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--blue-dark);
+    }
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 2px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 40px;
+      transition: 0.2s ease;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: var(--blue-dark);
+      font-weight: 500;
+      transition: 0.25s;
+    }
+    nav ul li a:hover {
+      color: var(--blue-accent);
+    }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 38px;
+      height: 38px;
+      background: var(--glass-bg);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 20;
+    }
+    .nav-toggle-bar {
+      width: 24px;
+      height: 3px;
+      background: var(--blue-dark);
+      margin: 3px 0;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    /* HERO */
+    .hero-container {
+      width: 95%;
+      max-width: 1200px;
+      margin: 120px auto 40px auto;
+      padding: 60px 40px;
+      background: var(--glass-bg);
+      border-radius: 25px;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.4);
+      box-shadow: 0 0 30px rgba(0,0,0,0.12);
+      text-align: center;
+    }
+    .hero-container h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #003459;
+      margin-bottom: 12px;
+    }
+    .hero-container p {
+      font-size: 1.2rem;
+      color: #005b88;
+    }
+    .submission-section {
+      width: 95%;
+      max-width: 1000px;
+      margin: 40px auto 80px auto;
+      text-align: center;
+    }
+    .submission-section h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #003d9b;
+      margin-bottom: 10px;
+    }
+    .section-divider {
+      width: 50px;
+      height: 4px;
+      background: #0094ff;
+      margin: 20px auto 40px auto;
+      border-radius: 2px;
+      border: none;
+    }
+    .form-container {
+      background: rgba(255,255,255,0.45);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 30px 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      max-width: 800px;
+      margin: 0 auto;
+      overflow: hidden;
+      transition: 0.3s ease;
+    }
+    .form-container iframe {
+      width: 100%;
+      height: 800px;
+      border: none;
+      border-radius: 15px;
+    }
+    .form-container:hover {
+      transform: translateY(-5px) scale(1.01);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+    }
+
+    /* FOOTER DESIGN */
+    .footer {
+      width: 100%;
+      margin-top: 120px;
+      padding: 50px 0 20px;
+      backdrop-filter: blur(20px);
+      background: var(--glass-bg);
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.1);
+    }
+    .footer-container {
+      width: 90%;
+      max-width: 1300px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+    .footer-left h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #2c66ac;
+    }
+    .footer-left p {
+      margin-top: 8px;
+      max-width: 280px;
+      color: #1d3b63;
+    }
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .footer-links a {
+      color: #003d9b;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: 0.25s;
+    }
+    .footer-links a:hover {
+      transform: translateX(6px);
+      color: #3b77c4;
+    }
+    .footer-social {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .footer-social a img {
+      width: 24px;
+      height: 24px;
+      filter: invert(26%) sepia(81%) saturate(2407%) hue-rotate(190deg) brightness(92%) contrast(89%);
+      transition: transform 0.3s, filter 0.3s;
+    }
+    .footer-social a:hover img {
+      transform: scale(1.2);
+      filter: invert(39%) sepia(99%) saturate(2894%) hue-rotate(200deg) brightness(102%) contrast(90%);
+    }
+    .footer-bottom {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.85rem;
+      color: #003d9b;
+      opacity: 0.8;
+    }
+
+    
+/* Hamburger button styles */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 38px;
+  height: 38px;
+  background: var(--glass-bg);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 11;
+}
+
+.nav-toggle-bar {
+  width: 24px;
+  height: 3px;
+  background: var(--blue-dark);
+  margin: 4px 0;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 900px) {
+      .hero-container {
+        padding: 40px 20px;
+        margin: 100px auto 30px;
+      }
+      .hero-container h1 {
+        font-size: 2.2rem;
+      }
+      .hero-container p {
+        font-size: 1rem;
+      }
+      .submission-section {
+        width: 90%;
+        margin: 30px auto 60px;
+      }
+      .form-container {
+        padding: 20px 15px;
+        max-width: 100%;
+      }
+      .form-container iframe {
+        height: 600px;
+      }
+      .footer-container { gap: 18px; }
+    }
+
+/* Responsive navbar dropdown for phones */
+@media (max-width: 600px) {
+  nav {
+    flex-direction: row;
+    justify-content: space-between;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    transform: none; /* remove the translateX */
+    padding: 12px 10px;
+  }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 58px;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background: var(--glass-bg);
+    border-radius: 0 0 18px 18px;
+    box-shadow: 0 10px 30px var(--shadow);
+    z-index: 10;
+    padding: 24px 0 14px 0;
+  }
+  nav.open .nav-links {
+    display: flex;
+  }
+  .nav-toggle {
+    display: flex;
+  }
+}
+
+
+@media (max-width: 600px) {
+      .hero-container h1 {
+        font-size: 1.7rem;
+      }
+      .hero-container p {
+        font-size: 0.9rem;
+      }
+      .form-container iframe {
+        height: 480px;
+      }
+      .submission-section {
+        width: 98%;
+        margin: 15px auto 32px;
+      }
+      .footer-container {
+        flex-direction: column;
+        gap: 12px;
+        width: 99%;
+        padding: 0 8px;
+      }
+      .footer-left h2 { font-size: 1.12rem; }
+      .footer-left p { font-size: 0.96rem; }
+      .footer-links a { font-size: 0.94rem; }
+      .footer-social { gap: 10px; }
+      .footer-bottom { font-size: 0.83rem; margin-top: 12px;}
+      .section-divider { margin: 14px auto;}
+    }
+    
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <img src="logo.png" alt="Mind & Muse Logo" class="logo-img">
+    <span>Mind & Muse Gazette</span>
+  </div>
+  <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="submission.html">Submission</a></li>
+    <li><a href="board.html">Board</a></li>
+    <li><a href="announcement.html">Announcement</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+<!-- HERO -->
+<div class="hero-container">
+  <h1>Submit Your Work</h1>
+  <p>Share your creativity with the world! Select your category and submit your piece using the form below.</p>
+</div>
+
+<!-- SUBMISSION FORM -->
+<section class="submission-section">
+  <hr class="section-divider">
+  <div class="form-container">
+    <!-- Embed your Google Form here -->
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScMYz2CfMlzqAhsfP2a7bS3094PWI60L24fFRAR3RLAo80kSw/viewform" frameborder="0" allowfullscreen></iframe>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-left">
+      <h2>✨ Mind & Muse Gazette</h2>
+      <p>A Creative Magazine celebrating Art, Writing & Photography.</p>
+    </div>
+    <div class="footer-links">
+      <a href="/index.html">Home</a>
+      <a href="/submission.html">Submit Work</a>
+      <a href="/issue.html">Issues</a>
+      <a href="#">Announcements</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-social">
+      <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" />
+      </a>
+      <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn" />
+      </a>
+      <a href="https://wa.me/" target="_blank" aria-label="WhatsApp">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp" />
+      </a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2025 Mind & Muse Gazette — All Rights Reserved
+  </div>
+</footer>
+
+<script>
+function toggleNav() {
+  var nav = document.querySelector('nav');
+  nav.classList.toggle('open');
+}
+</script>
+</body>
+</html>

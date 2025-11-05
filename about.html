@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About - The Mind & Muse Gazette</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+<style>
+/* --- GENERAL STYLES --- */
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.35);
+  --blue-accent: #3b77c4;
+  --blue-dark: #2c66ac;
+  --shadow: rgba(0, 0, 0, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #cce7ff 0%, #e8f4ff 100%);
+  overflow-x: hidden;
+  color: #1e1e1e;
+}
+
+/* --- NAVBAR --- */
+nav {
+  position: fixed;
+  top: 20px;
+  width: 90%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 18px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px var(--shadow);
+  z-index: 10;
+}
+
+nav .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--blue-dark);
+}
+
+nav .logo-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.2);
+  padding: 2px;
+  object-fit: contain;
+  backdrop-filter: blur(6px);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 40px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  font-size: 1rem;
+  color: var(--blue-dark);
+  font-weight: 500;
+  transition: 0.25s;
+}
+
+nav ul li a:hover {
+  color: var(--blue-accent);
+}
+
+/* Hamburger */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 38px;
+  height: 38px;
+  background: var(--glass-bg);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 11;
+}
+
+.nav-toggle-bar {
+  width: 24px;
+  height: 3px;
+  background: var(--blue-dark);
+  margin: 4px 0;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+/* --- HERO --- */
+.hero-container {
+  width: 95%;
+  max-width: 1200px;
+  margin: 120px auto 50px auto;
+  background: var(--glass-bg);
+  border-radius: 25px;
+  padding: 50px 40px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.12);
+  text-align: center;
+}
+
+.hero-container h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #003459;
+  margin-bottom: 25px;
+}
+
+.hero-container p {
+  font-size: 1.15rem;
+  margin-top: 10px;
+  color: #005b88;
+  line-height: 1.7;
+}
+
+/* --- SECTION CARDS --- */
+.section-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 50px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(18px);
+  border-radius: 20px;
+  padding: 25px 20px;
+  width: 300px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+  transition: 0.35s;
+  text-align: center;
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.18);
+}
+
+.card h3 {
+  font-size: 1.3rem;
+  color: #2c66ac;
+  margin-bottom: 12px;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #003459;
+  line-height: 1.5;
+}
+
+/* --- FOOTER --- */
+.footer {
+  width: 100%;
+  margin-top: 120px;
+  padding: 50px 0 20px;
+  backdrop-filter: blur(20px);
+  background: var(--glass-bg);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.1);
+}
+
+.footer-container {
+  width: 90%;
+  max-width: 1300px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.footer-left h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2c66ac;
+}
+
+.footer-left p {
+  margin-top: 8px;
+  max-width: 280px;
+  color: #1d3b63;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.footer-links a {
+  color: #003d9b;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: 0.25s;
+}
+
+.footer-links a:hover {
+  transform: translateX(6px);
+  color: #3b77c4;
+}
+
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer-social a img {
+  width: 24px;
+  height: 24px;
+  filter: invert(26%) sepia(81%) saturate(2407%) hue-rotate(190deg) brightness(92%) contrast(89%);
+  transition: transform 0.3s, filter 0.3s;
+}
+
+.footer-social a:hover img {
+  transform: scale(1.2);
+  filter: invert(39%) sepia(99%) saturate(2894%) hue-rotate(200deg) brightness(102%) contrast(90%);
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 0.85rem;
+  color: #003d9b;
+  opacity: 0.8;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+  .hero-container {
+    padding: 35px 20px;
+    margin: 100px auto 40px auto;
+  }
+  .hero-container h1 {
+    font-size: 2.2rem;
+  }
+  .hero-container p {
+    font-size: 1rem;
+  }
+  .section-cards {
+    gap: 18px;
+  }
+}
+
+@media (max-width: 600px) {
+  /* NAVBAR */
+  nav {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    left: 0;
+    transform: none;
+    padding: 12px 10px;
+  }
+  .nav-toggle {
+    display: flex;
+  }
+  nav ul {
+    display: none;
+    position: absolute;
+    top: 58px;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background: var(--glass-bg);
+    border-radius: 0 0 18px 18px;
+    box-shadow: 0 10px 30px var(--shadow);
+    z-index: 10;
+    padding: 20px 0;
+  }
+  nav.open ul {
+    display: flex;
+  }
+
+  /* HERO */
+  .hero-container {
+    padding: 25px 15px;
+    margin: 80px auto 30px;
+  }
+  .hero-container h1 {
+    font-size: 1.7rem;
+  }
+  .hero-container p {
+    font-size: 0.9rem;
+  }
+
+  /* SECTION CARDS */
+  .section-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+  .card {
+    width: 95%;
+  }
+
+  /* FOOTER */
+  .footer-container {
+    flex-direction: column;
+    gap: 12px;
+    width: 98%;
+    padding: 0 10px;
+  }
+  .footer-left h2 { font-size: 1.2rem; }
+  .footer-left p { font-size: 0.95rem; }
+  .footer-links a { font-size: 0.92rem; }
+  .footer-social { gap: 10px; justify-content: center; }
+  .footer-bottom { font-size: 0.83rem; margin-top: 12px; }
+}
+/* Hamburger button styles */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 38px;
+  height: 38px;
+  background: var(--glass-bg);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 11;
+}
+
+.nav-toggle-bar {
+  width: 24px;
+  height: 3px;
+  background: var(--blue-dark);
+  margin: 4px 0;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+</style>
+
+  <!-- FontAwesome for icons -->
+  <script src="https://kit.fontawesome.com/a81368914c.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<nav>
+  <div class="logo">
+    <img src="logo.png" alt="Mind & Muse Logo" class="logo-img">
+    <span>Mind & Muse Gazette</span>
+  </div>
+  <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="submission.html">Submission</a></li>
+    <li><a href="#">Board</a></li>
+    <li><a href="#">Announcement</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+
+  <!-- Hero Container -->
+  <div class="hero-container">
+    <h1>About The Mind & Muse Gazette</h1>
+    <p>The Mind & Muse Gazette is a creative magazine dedicated to celebrating the artistic talents of students and creative minds. We provide a platform for artists, writers, and photographers to share their work, connect with a vibrant community, and showcase their creativity to the world.</p>
+  </div>
+
+  <!-- Section Cards -->
+  <div class="section-cards">
+
+    <div class="card">
+      <h3>🎯 Our Mission</h3>
+      <p>Empower creative individuals by providing a platform to showcase their talents and connect with like-minded people.</p>
+    </div>
+
+    <div class="card">
+      <h3>🌍 Community First</h3>
+      <p>Building a supportive community where artists, writers, and photographers can grow and inspire each other.</p>
+    </div>
+
+    <div class="card">
+      <h3>✨ Quality Content</h3>
+      <p>Curating exceptional creative work that inspires, educates, and entertains our readers.</p>
+    </div>
+
+    <div class="card">
+      <h3>💡 Our Vision</h3>
+      <p>To create an inclusive, inspiring space where creativity knows no bounds. Every voice deserves to be heard, and every piece of art deserves recognition.</p>
+    </div>
+
+  </div>
+
+ <footer class="footer">
+  <div class="footer-container">
+    <div class="footer-left">
+      <h2>✨ Mind & Muse Gazette</h2>
+      <p>A Creative Magazine celebrating Art, Writing & Photography.</p>
+    </div>
+
+    <div class="footer-links">
+      <a href="/index.html">Home</a>
+      <a href="/submission.html">Submit Work</a>
+      <a href="/issue.html">Issues</a>
+      <a href="#">Announcements</a>
+      <a href="#">Contact</a>
+    </div>
+
+    <div class="footer-social">
+      <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" />
+      </a>
+      <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn" />
+      </a>
+      <a href="https://wa.me/" target="_blank" aria-label="WhatsApp">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp" />
+      </a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    © 2025 Mind & Muse Gazette — All Rights Reserved
+  </div>
+</footer>
+
+<script>
+function toggleNav() {
+  document.querySelector('nav').classList.toggle('open');
+}
+</script>
+</body>
+
+</html>

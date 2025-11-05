@@ -10,7 +10,43 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
-<style>
+<style>/* Loader full screen */
+  #loader {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: linear-gradient(135deg, #cce7ff, #e8f4ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+  }
+
+  #loader .loader-content {
+    text-align: center;
+    animation: fadeInScale 1.5s ease-in-out infinite alternate;
+  }
+
+  #loader .loader-logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  #loader h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #003d9b;
+    letter-spacing: 1px;
+  }
+
+  @keyframes fadeInScale {
+    0% { transform: scale(1); opacity: 0.7; }
+    100% { transform: scale(1.05); opacity: 1; }
+  }
 /* -------------------------------------------------- */
 /* GLOBAL STYLES */
 /* -------------------------------------------------- */
@@ -641,7 +677,13 @@ nav ul li a:hover {
 
 </head>
 <body>
-
+<!-- PLACE THIS AT THE TOP OF <body> -->
+<div id="loader">
+  <div class="loader-content">
+    <img src="logo.png" alt="Mind & Muse Logo" class="loader-logo">
+    <h2>Entering Galaxy</h2>
+  </div>
+</div>  
 <!-- NAVBAR -->
 <nav>
   <div class="logo">
@@ -756,6 +798,15 @@ nav ul li a:hover {
 
 
 <script>
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const loader = document.getElementById('loader');
+      loader.style.opacity = '0';
+      setTimeout(() => loader.style.display = 'none', 500);
+
+      document.getElementById('main-content').style.display = 'block';
+    }, 1500); // 2 seconds
+  });
 function toggleNav() {
   var nav = document.querySelector('nav');
   nav.classList.toggle('open');

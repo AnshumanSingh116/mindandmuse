@@ -1,158 +1,769 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Svis Mind & Muse — The Mind & Muse Gazette</title>
-  <meta name="description" content="Svis Mind & Muse — a creative magazine celebrating student art, writing & photography."/>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root{
-      --bg-light: linear-gradient(180deg,#fbfdff 0%, #f6fbff 60%);
-      --panel: rgba(255,255,255,0.96);
-      --muted: #566073;
-      --accent-grad: linear-gradient(90deg,#06b6d4 0%,#7dd3fc 50%,#c4b5fd 100%);
-      --accent: #06b6d4;
-      --ambient-1: rgba(6,182,212,0.08);
-      --ambient-2: rgba(124,58,237,0.06);
-    }
-    [data-theme="dark"]{
-      --bg-light: linear-gradient(180deg,#031325 0%, #071229 60%);
-      --panel: rgba(8,12,20,0.92);
-      --muted: #9aa5c0;
-      color: #e6eef8;
-    }
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
-      background:var(--bg-light);
-      color:#071029;
-      transition:background .45s ease,color .35s ease;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      overflow-x:hidden;
-    }
-    .preloader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg-light);z-index:9999;transition:opacity .6s ease,visibility .6s ease;}
-    .preloader.hidden{opacity:0;visibility:hidden}
-    .logo-glow{width:96px;height:96px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-weight:800;background:var(--accent-grad);box-shadow:0 10px 30px rgba(6,20,40,0.12);color:#021028;font-size:20px;animation:logoPulse 2s infinite;}
-    @keyframes logoPulse{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
-    .ambient{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:overlay;background:radial-gradient(800px 420px at 10% 18%, var(--ambient-1), transparent 12%),radial-gradient(700px 350px at 90% 82%, var(--ambient-2), transparent 10%);opacity:0.95;animation: ambientMove 14s linear infinite;backdrop-filter: blur(8px) saturate(120%);}
-    @keyframes ambientMove{0%{ transform: translate(0,0) }25%{ transform: translate(18px,-14px) }50%{ transform: translate(36px,0) }75%{ transform: translate(18px,14px) }100%{ transform: translate(0,0) }}
-    main{max-width:1200px;margin:0 auto;padding:44px 20px 80px;position:relative;z-index:10}
-    header{position:sticky;top:0;z-index:90;backdrop-filter: blur(8px);padding:10px 0}
-    .glass{background:var(--panel);border:1px solid rgba(12,18,30,0.04);box-shadow:0 6px 20px rgba(12,22,40,0.04);backdrop-filter: blur(6px)}
-    .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s cubic-bezier(.22,.9,.26,1)}
-    .reveal.visible{opacity:1;transform:none}
-    .nav-active{background:rgba(0,0,0,0.04);border-radius:999px;padding:6px 12px}
-    :focus{outline:3px solid rgba(6,182,212,0.14);outline-offset:2px}
-    footer{margin-top:36px}
-    .water-overlay{position:fixed;left:0;top:-160%;width:100%;height:320%;pointer-events:none;z-index:200;opacity:0;mix-blend-mode:screen}
-    .water-overlay.visible{opacity:1}
-    .water-wave{position:absolute;left:-12%;width:124%;height:120%;background:linear-gradient(180deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.32) 18%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0.02) 100%);backdrop-filter: blur(7px) saturate(120%);transform:translateY(-100%) scaleX(1.06);border-radius:42%;box-shadow:0 22px 80px rgba(6,20,30,0.10);animation: waterFlow 2s linear forwards;will-change: transform, opacity;}
-    .water-wave::before{content:"";position:absolute;inset:0;background:radial-gradient(1200px 140px at 12% 18%, rgba(255,255,255,0.08), transparent 20%), radial-gradient(1000px 80px at 82% 42%, rgba(255,255,255,0.045), transparent 18%);mix-blend-mode:overlay;}
-    @keyframes waterFlow{0%{ transform:translateY(-100%) scaleX(1.06); opacity:0 }12%{ opacity:0.92 }60%{ transform:translateY(18%) scaleX(1.02); opacity:0.98 }100%{ transform:translateY(130%) scaleX(1.0); opacity:0 }}
-    .toggle-icon{display:inline-block;transition:transform .6s cubic-bezier(.22,.9,.26,1)}
-    .toggle-anim{transform:rotate(360deg) scale(1.05);transition:transform .9s cubic-bezier(.22,.9,.26,1)}
-    .newsletter-row{display:flex;gap:10px;align-items:center;justify-content:center}
-    @media (max-width:640px){ .newsletter-row{flex-direction:column;align-items:stretch} }
-    .footer-centered{display:flex;flex-direction:column;align-items:center;gap:16px;padding:28px 12px;background:transparent}
-    .socials{display:flex;gap:12px;align-items:center}
-    .socials a{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:10px;background:#fff;border:0;box-shadow:0 8px 20px rgba(6,20,40,0.06)}
-    [data-theme="dark"] .socials a{background:#0b1220}
-    .socials a svg{width:20px;height:20px;display:block}
-    .socials a:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(6,20,40,0.12);transition:all .22s ease}
-    @media (min-width:1024px){ main{max-width:1200px} }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Mind & Muse Gazette</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+<style>
+/* -------------------------------------------------- */
+/* GLOBAL STYLES */
+/* -------------------------------------------------- */
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.35);
+  --blue-accent: #3b77c4;
+  --blue-dark: #2c66ac;
+  --shadow: rgba(0, 0, 0, 0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #cce7ff 0%, #e8f4ff 100%);
+  overflow-x: hidden;
+  color: #1e1e1e;
+}
+
+.logo {
+  display: flex;
+  align-items: center;   /* vertically center the text with logo */
+  gap: 4px;              /* smaller gap between image and text */
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #2c66ac;
+}
+
+.logo-img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* -------------------------------------------------- */
+/* NAVBAR */
+/* -------------------------------------------------- */
+nav {
+  position: fixed;
+  top: 20px;
+  width: 90%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 18px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px var(--shadow);
+  z-index: 10;
+}
+
+nav .logo {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--blue-dark);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 40px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: var(--blue-dark);
+  font-weight: 500;
+  transition: 0.25s;
+}
+
+nav ul li a:hover {
+  color: var(--blue-accent);
+}
+
+/* -------------------------------------------------- */
+/* HERO GLASS BOX */
+/* -------------------------------------------------- */
+.hero-container {
+  width: 95%;
+  max-width: 1300px;
+  margin: 140px auto 40px auto; /* space below navbar */
+  padding: 70px 50px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(255,255,255,0.6);
+  border-radius: 24px;
+  box-shadow: 0 10px 30px var(--shadow);
+  text-align: center;
+}
+
+.hero-container h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  background: linear-gradient(to right, #2c66ac, #3b77c4);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.hero-container p {
+  font-size: 1.3rem;
+  margin-top: 10px;
+}
+
+/* CTA Buttons */
+.cta-wrapper {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.cta-btn {
+  padding: 14px 26px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: 0.25s;
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.primary { background: var(--blue-accent); color: white; }
+.secondary { background: white; color: var(--blue-dark); }
+.cta-btn:hover { transform: translateY(-4px) scale(1.05); }
+
+/* -------------------------------------------------- */
+/* THEME SECTION */
+/* -------------------------------------------------- */
+.submission-section {
+  width: 95%;
+  max-width: 1300px;
+  margin: 80px auto;
+  text-align: center;
+}
+
+.theme-box {
+   width: 80%;          /* <-- change this value */
+  max-width: 1000px;   /* <-- optional max limit */
+  margin: auto; 
+  padding: 40px;
+  background: var(--glass-bg);
+  border-radius: 20px;
+  border: 1.5px solid rgba(255,255,255,0.6);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 10px 26px var(--shadow);
+  transition: transform .4s;
+}
+
+
+.theme-heading:hover {
+  filter: drop-shadow(0px 0px 12px rgba(0, 150, 255, 0.45));
+  transform: translateY(-8px);
+  transition: 0.3s ease;
+}
+
+
+.theme-title {
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.theme-description {
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+.chand {
+  font-size: 50px;
+}
+
+.theme-heading {
+  font-size: 2.6rem;        /* bigger heading */
+  font-weight: 700;
+  text-align: center;
+  background: linear-gradient(90deg, #002e5f, #0094ff);
+  -webkit-background-clip: text;
+  color: transparent;       /* gradient text */
+  margin-bottom: 18px;
+}
+
+
+.deadline {
+  display: block;
+  margin-top: 15px;
+  color: var(--blue-dark);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* -------------------------------------------------- */
+/* SUBMISSION CARDS */
+/* -------------------------------------------------- */
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 70px;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 380px;
+  padding: 32px;
+  background: var(--glass-bg);
+  border-radius: 20px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 10px 26px var(--shadow);
+  transition: 0.35s ease;
+  border: 1.5px solid rgba(255,255,255,0.6);
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.05);
+}
+
+.submit-btn {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: var(--blue-accent);
+  border-radius: 10px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: .2s;
+}
+
+.submit-btn:hover { transform: scale(1.07); }
+
+/* -------------------------------------------------- */
+/* POPUP */
+/* -------------------------------------------------- */
+#popup {
+  width: 360px;
+  padding: 30px;
+  background: white;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 14px;
+  display: none;
+  z-index: 1000;
+}
+
+#popup input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+}
+
+#popup button {
+  margin-top: 16px;
+  width: 100%;
+  padding: 12px;
+  background: var(--blue-accent);
+  border-radius: 10px;
+  border: none;
+  color: white;
+}
+.section-divider {
+  width: 100%;              /* how wide the line is */
+  height: 2px;             /* thickness */
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(59, 119, 196, 0.6),  /* blue glow-ish center */
+    transparent
+  );
+  margin: 50px auto;       /* space above/below and centered */
+  border-radius: 50px;
+}
+
+
+.section-heading {
+  font-size: 3rem;          /* increased size */
+  font-weight: 800;
+  text-align: center;
+  color: #0066c7;           /* strong blue accent */
+  margin-bottom: 40px;
+}
+
+/* FOOTER DESIGN */
+.footer {
+  width: 100%;
+  margin-top: 120px;
+  padding: 50px 0 20px;
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.35);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.1);
+}
+
+.footer-container {
+  width: 90%;
+  max-width: 1300px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.footer-left h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2c66ac;
+}
+
+.footer-left p {
+  margin-top: 8px;
+  max-width: 280px;
+  color: #1d3b63;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.footer-links a {
+  color: #003d9b;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: 0.25s;
+}
+
+.footer-links a:hover {
+  transform: translateX(6px);
+  color: #3b77c4;
+}
+
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer-social a img {
+  width: 24px;
+  height: 24px;
+  filter: invert(26%) sepia(81%) saturate(2407%) hue-rotate(190deg) brightness(92%) contrast(89%);
+  transition: transform 0.3s, filter 0.3s;
+}
+
+.footer-social a:hover img {
+  transform: scale(1.2);
+  filter: invert(39%) sepia(99%) saturate(2894%) hue-rotate(200deg) brightness(102%) contrast(90%);
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 0.85rem;
+  color: #003d9b;
+  opacity: 0.8;
+}
+
+/* Footer Responsive */
+@media (max-width: 780px) {
+  .footer-container {
+    text-align: center;
+    flex-direction: column;
+    gap: 25px;
+  }
+  
+  .footer-social {
+    justify-content: center;
+  }
+}
+
+/* --------------------------------------------- */
+/* RESPONSIVE DESIGN: Add these at end of CSS    */
+/* --------------------------------------------- */
+
+/* Small devices: Mobile phones (max-width: 600px) */
+@media (max-width: 600px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 12px;
+    width: 98%;
+    top: 8px;
+    left: 1%;
+    transform: none;
+  }
+  nav .logo {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+  nav ul {
+    gap: 16px;
+    flex-direction: column;
+    width: 100%;
+  }
+  nav ul li {
+    width: 100%;
+  }
+  nav ul li a {
+    display: block;
+    padding: 7px 0;
+    width: 100%;
+  }
+
+  .hero-container {
+    padding: 30px 12px;
+    margin: 100px auto 28px auto;
+  }
+  .hero-container h1 {
+    font-size: 2.1rem;
+  }
+  .hero-container p {
+    font-size: 1rem;
+  }
+  .cta-wrapper {
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 30px;
+  }
+  .cta-btn {
+    width: 100%;
+    font-size: 0.97rem;
+    padding: 13px 0;
+  }
+
+  .submission-section, .theme-box {
+    width: 99%;
+    max-width: 99%;
+    padding: 18px 6px;
+    margin: 34px auto;
+  }
+  .theme-box {
+    width: 97%;
+    padding: 14px 6px;
+  }
+  .theme-title, .theme-heading {
+    font-size: 1.4rem;
+  }
+  .theme-description {
+    font-size: 0.97rem;
+  }
+  .section-heading {
+    font-size: 1.7rem;
+    margin-bottom: 22px;
+  }
+  .cards {
+    flex-direction: column;
+    gap: 22px;
+    margin-top: 28px;
+    align-items: center;
+  }
+  .card {
+    width: 98%;
+    padding: 15px 8px;
+    font-size: 0.96rem;
+  }
+
+  #popup {
+    width: 96%;
+    padding: 17px;
+    left: 2%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .footer-container {
+    flex-direction: column;
+    gap: 14px;
+    text-align: left;
+    width: 99%;
+    padding: 0 10px;
+  }
+  .footer-left h2 {
+    font-size: 1.2rem;
+  }
+  .footer-left p {
+    font-size: 0.96rem;
+  }
+  .footer-links a {
+    font-size: 0.96rem;
+    padding: 5px 0;
+  }
+  .footer-social {
+    gap: 12px;
+    justify-content: flex-start;
+  }
+  .footer-bottom {
+    font-size: 0.84rem;
+    margin-top: 14px;
+    padding: 0 10px;
+  }
+  .section-divider {
+    margin: 18px auto;
+  }
+}
+
+/* Medium devices: Tablets (max-width: 900px) */
+@media (max-width: 900px) {
+  nav ul {
+    gap: 22px;
+  }
+  .hero-container {
+    padding: 44px 22px;
+    margin: 90px auto 28px auto;
+  }
+  .hero-container h1 {
+    font-size: 2.4rem;
+  }
+  .cta-wrapper {
+    gap: 16px;
+  }
+  .theme-box {
+    width: 96%;
+    padding: 22px 12px;
+  }
+  .cards {
+    gap: 20px;
+  }
+  .card {
+    width: 90%;
+    max-width: 340px;
+    padding: 18px 12px;
+  }
+  .footer-container {
+    width: 98%;
+    gap: 18px;
+    padding: 0 8px;
+  }
+}
+
+/* Make large hero text scale smoothly */
+@media (max-width: 1200px) {
+  .hero-container h1 {
+    font-size: 2.9rem;
+  }
+}
+
+/* Make section headings scale on tablets */
+@media (max-width: 900px) {
+  .section-heading {
+    font-size: 2.1rem;
+  }
+}
+
+/* Reduce side padding for cards on smaller desktops */
+@media (max-width: 1100px) {
+  .cards {
+    gap: 24px;
+  }
+  .card {
+    width: 96%;
+    max-width: 380px;
+  }
+}
+
+
+/* Hamburger button styles */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 38px;
+  height: 38px;
+  background: var(--glass-bg);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 11;
+}
+
+.nav-toggle-bar {
+  width: 24px;
+  height: 3px;
+  background: var(--blue-dark);
+  margin: 4px 0;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+/* Responsive navbar dropdown for phones */
+@media (max-width: 600px) {
+  nav {
+    flex-direction: row;
+    justify-content: space-between;
+    position: fixed;
+    width: 98%;
+    left: 1%;
+    padding: 12px 8px;
+  }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 58px;
+    left: 0;
+    width: 100vw;
+    flex-direction: column;
+    background: var(--glass-bg);
+    border-radius: 0 0 18px 18px;
+    box-shadow: 0 10px 30px var(--shadow);
+    z-index: 10;
+    padding: 24px 0 14px 0;
+  }
+  nav.open .nav-links {
+    display: flex;
+  }
+  .nav-toggle {
+    display: flex;
+  }
+}
+
+
+</style>
+
 </head>
-<body data-theme="light">
-  <div id="preloader" class="preloader" role="status" aria-live="polite"><div class="logo-glow">M&amp;M</div></div>
-  <div class="ambient" aria-hidden="true"></div>
-  <div id="waterOverlay" class="water-overlay" aria-hidden="true"><div class="water-wave" style="height:68%;top:-6%"></div></div>
+<body>
 
-  <header>
-    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 lg:px-0">
-      <a href="#home" class="flex items-center gap-3" aria-label="Home"><div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(90deg,#06b6d4,#7dd3fc,#c4b5fd);display:flex;align-items:center;justify-content:center;font-weight:800;color:#021028">M&amp;M</div><div class="hidden md:block"><div class="font-extrabold text-lg">The Mind &amp; Muse Gazette</div><div class="text-sm" style="color:var(--muted)">Celebrating art, writing & photography</div></div></a>
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">
+    <img src="logo.png" alt="Mind & Muse Logo" class="logo-img">
+    <span>Mind & Muse Gazette</span>
+  </div>
+  <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="submission.html">Submission</a></li>
+    <li><a href="board.html">Board</a></li>
+    <li><a href="announcement.html">Announcement</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
 
-      <nav class="hidden lg:flex items-center gap-3" role="navigation">
-        <a class="nav-link text-sm px-3 py-2" href="#home">Home</a>
-        <a class="nav-link text-sm px-3 py-2" href="#theme">Monthly Theme</a>
-        <a class="nav-link text-sm px-3 py-2" href="#submit">Submit</a>
-        <a class="nav-link text-sm px-3 py-2" href="#leaderboard">Leaderboard</a>
-        <a class="nav-link text-sm px-3 py-2" href="#about">About</a>
-        <a class="nav-link text-sm px-3 py-2" href="#team">Team</a>
-        <a class="nav-link text-sm px-3 py-2" href="#contact">Contact</a>
-        <button id="themeToggle" class="ml-3 p-2 rounded-md glass" aria-pressed="false" title="Toggle theme"><span id="themeIcon" class="toggle-icon">🌙</span></button>
-      </nav>
 
-      <div class="lg:hidden flex items-center gap-2">
-        <button id="mobileTheme" class="p-2 rounded-md glass" title="Toggle theme"><span id="mobileThemeIcon" class="toggle-icon">🌙</span></button>
-        <button id="mobileMenuBtn" class="p-2 rounded-md glass" aria-controls="mobileMenu" aria-expanded="false"><svg width="22" height="22" fill="none" stroke="#071029"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-      </div>
+
+<!-- HERO GLASS BOX -->
+<div class="hero-container">
+  <h1>The Mind & Muse Gazette</h1>
+  <p>A Creative Magazine Celebrating Art, Writing & Photography</p>
+
+  <div class="cta-wrapper">
+    <a href="/issue.html"><button class="cta-btn primary">📖 Read Latest Issue (July 2025)</button></a>
+    <a href="/submission.html"><button class="cta-btn secondary">Submit Your Work</button></a>
+    <button class="cta-btn primary" onclick="openPopup()">Subscribe to Newsletter</button>
+  </div>
+</div>
+
+<!-- THEME SECTION -->
+<section class="submission-section">
+
+  <h2 class="section-heading">This Month's Theme</h2>
+
+  <div class="theme-box">
+    <h3 class="chand">🌙</h3>
+    <h3 class="theme-heading"> Reflections</h3>
+    <p class="theme-description">
+      Explore the theme of reflections through your art, writing, or photography.<br>
+      What do you see when you look deeper?<br>
+      Share your perspective with us!
+    </p>
+    <span class="deadline">Submission Deadline: October 31, 2025</span>
+  </div>
+<div class="section-divider"></div>
+
+  <h3 class="theme-heading"> Submit Your Work</h3>
+  <div class="cards">
+    <div class="card">
+      🎨 <h3>Art Submission</h3>
+      <p>Submit your digital art, paintings, sketches, and more</p>
+      <a href="/submission.html"><button class="submit-btn">Submit Art</button></a>
+    </div>
+    <div class="card">
+      ✍️ <h3>Writing Submission</h3>
+      <p>Stories, poems, essays — we want your voice</p>
+      <a href="/submission.html"><button class="submit-btn">Submit Writing</button></a>
+    </div>
+    <div class="card">
+      📸 <h3>Photography Submission</h3>
+      <p>Capture moments that speak louder than words</p>
+      <a href="/submission.html"><button class="submit-btn">Submit Photo</button></a>
+    </div>
+  </div>
+</section>
+
+<!-- POPUP -->
+<div id="popup">
+  <h3>Subscribe to Newsletter</h3>
+  <input type="text" placeholder="Your Name" />
+  <input type="email" placeholder="Your Email" />
+  <button onclick="closePopup()">Submit</button>
+</div>
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-left">
+      <h2>✨ Mind & Muse Gazette</h2>
+      <p>A Creative Magazine celebrating Art, Writing & Photography.</p>
     </div>
 
-    <div id="mobileMenu" class="hidden lg:hidden px-4 mt-3"><div class="glass rounded-lg p-4"><a class="block py-2" href="#home">Home</a><a class="block py-2" href="#theme">Monthly Theme</a><a class="block py-2" href="#submit">Submit</a><a class="block py-2" href="#leaderboard">Leaderboard</a><a class="block py-2" href="#about">About</a><a class="block py-2" href="#team">Team</a><a class="block py-2" href="#contact">Contact</a></div></div>
-  </header>
+    <div class="footer-links">
+      <a href="/index.html">Home</a>
+      <a href="/submission.html">Submit Work</a>
+      <a href="/issue.html">Issues</a>
+      <a href="#">Announcements</a>
+      <a href="#">Contact</a>
+    </div>
 
-  <main>
-    <section id="home" class="grid lg:grid-cols-2 gap-10 items-center py-10">
-      <div class="reveal space-y-6">
-        <div class="inline-flex items-center gap-3 px-3 py-1 rounded-full" style="background:linear-gradient(90deg,#c4b5fd,#7dd3fc);color:#021028;font-weight:700">New • July 2025</div>
-        <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">The Mind &amp; Muse Gazette<br><span class="text-lg font-medium" style="color:var(--muted)">A creative magazine celebrating art, writing & photography</span></h1>
-        <p class="text-gray-700 max-w-xl">Discover featured art, writing and photography from the creative minds at SVIS. Read the latest issue, submit your work, and join a welcoming community.</p>
-        <div class="flex gap-3"><a class="px-5 py-3 rounded-lg" style="background:var(--accent-grad);color:#021028;font-weight:600" href="#issues">📖 Read Latest Issue (July 2025)</a><a class="px-5 py-3 rounded-lg border" href="#submit">Submit Your Work</a><button id="openSubscribe" class="px-5 py-3 rounded-lg border">Subscribe to Newsletter</button></div>
-      </div>
+    <div class="footer-social">
+      <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" />
+      </a>
+      <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn" />
+      </a>
+      <a href="https://wa.me/" target="_blank" aria-label="WhatsApp">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp" />
+      </a>
+    </div>
+  </div>
 
-      <div class="reveal"><div class="glass rounded-2xl p-6"><h3 class="font-bold">Magazine Highlights</h3><div class="mt-4 grid gap-4"><div class="p-4 rounded-lg flex items-center gap-4 border"><div class="w-14 h-14 rounded-lg bg-gradient-to-tr from-sky-200 to-pink-200 flex items-center justify-center text-white font-bold">🎨</div><div><div class="font-semibold">Featured Art</div><div class="text-sm" style="color:var(--muted)">Discover stunning visual creations from talented artists</div></div><div class="ml-auto"><a href="#gallery" class="text-sm">View Gallery →</a></div></div><div class="p-4 rounded-lg flex items-center gap-4 border"><div class="w-14 h-14 rounded-lg bg-gradient-to-tr from-purple-200 to-sky-200 flex items-center justify-center text-white font-bold">✍️</div><div><div class="font-semibold">Featured Writing</div><div class="text-sm" style="color:var(--muted)">Read compelling stories, poems, and articles</div></div><div class="ml-auto"><a href="#writing" class="text-sm">Read More →</a></div></div><div class="p-4 rounded-lg flex items-center gap-4 border"><div class="w-14 h-14 rounded-lg bg-gradient-to-tr from-pink-200 to-sky-200 flex items-center justify-center text-white font-bold">📸</div><div><div class="font-semibold">Featured Photography</div><div class="text-sm" style="color:var(--muted)">Explore breathtaking photography submissions</div></div><div class="ml-auto"><a href="#photos" class="text-sm">View Photos →</a></div></div></div></div></div>
-    </section>
+  <div class="footer-bottom">
+    © 2025 Mind & Muse Gazette — All Rights Reserved
+  </div>
+</footer>
 
-    <section id="theme" class="py-10 reveal"><h2 class="text-3xl font-bold">This Month's Theme</h2><p class="mt-3 text-lg" style="color:var(--muted)">🌙 "Reflections" — Explore reflection through art, writing, and photography. Submission Deadline: October 31, 2025.</p><div class="mt-4 p-6 glass rounded-lg max-w-3xl"><div class="flex items-center justify-between"><div><div class="font-semibold">Submission Deadline</div><div class="text-sm" style="color:var(--muted)">October 31, 2025</div></div><div class="text-sm" style="color:var(--muted)">Submit in Art, Writing, or Photography</div></div></div></section>
 
-    <section id="submit" class="py-10 reveal"><div class="grid lg:grid-cols-2 gap-8 items-start"><div><h2 class="text-3xl font-bold">Submit Your Work</h2><p class="mt-2" style="color:var(--muted)">Share your creativity with our community. Submissions reviewed by the editorial team — replies within two weeks.</p><div class="mt-6 grid gap-4"><div class="p-4 rounded-lg glass border"><div class="font-semibold">Art Submission</div><div class="text-sm" style="color:var(--muted)">Digital art, paintings, sketches.</div></div><div class="p-4 rounded-lg glass border"><div class="font-semibold">Writing Submission</div><div class="text-sm" style="color:var(--muted)">Stories, poems, essays.</div></div><div class="p-4 rounded-lg glass border"><div class="font-semibold">Photography Submission</div><div class="text-sm" style="color:var(--muted)">Photo essays & single shots.</div></div></div></div><aside class="glass rounded-lg p-6"><h3 class="font-semibold">Submission Form (demo)</h3><form id="submitForm" class="mt-4 grid gap-3"><input name="name" placeholder="Full name" class="p-3 rounded-md border" required /><input name="email" type="email" placeholder="Email address" class="p-3 rounded-md border" required /><select name="category" class="p-3 rounded-md border"><option value="writing">Writing</option><option value="art">Art</option><option value="photo">Photography</option></select><input name="title" placeholder="Title of work" class="p-3 rounded-md border" required /><textarea name="desc" rows="3" placeholder="Short description (optional)" class="p-3 rounded-md border"></textarea><label class="text-sm" style="color:var(--muted)">Upload file (demo)</label><input id="fileInput" type="file" class="mt-1" /><div class="flex gap-2 mt-3"><button type="submit" class="px-4 py-2 rounded-md" style="background:var(--accent-grad);color:#021028">Open Google Form</button><button id="saveDraft" type="button" class="px-4 py-2 rounded-md border">Save Draft</button></div><div id="submitStatus" class="text-sm text-green-600 hidden">Saved (demo)</div></form></aside></div></section>
+<script>
+function toggleNav() {
+  var nav = document.querySelector('nav');
+  nav.classList.toggle('open');
+}
 
-    <section id="leaderboard" class="py-10 reveal"><h2 class="text-3xl font-bold">Top Contributors</h2><p class="mt-2" style="color:var(--muted)">Celebrating our most active contributors — results coming soon!</p><div class="mt-6 glass rounded-lg p-6 max-w-3xl"><ol id="leaderList" class="list-decimal pl-6"></ol></div></section>
+function openPopup() { document.getElementById("popup").style.display = "block"; }
+function closePopup() { document.getElementById("popup").style.display = "none"; }
+</script>
 
-    <section id="about" class="py-10 reveal"><h2 class="text-3xl font-bold">About The Mind & Muse Gazette</h2><p class="mt-3" style="color:var(--muted)">A creative magazine to showcase student art, writing and photography.</p><div class="mt-6 grid sm:grid-cols-3 gap-4"><div class="p-4 glass rounded-lg"><div class="font-semibold">Our Vision</div><div class="text-sm" style="color:var(--muted)">Inclusive creative space.</div></div><div class="p-4 glass rounded-lg"><div class="font-semibold">Our Mission</div><div class="text-sm" style="color:var(--muted)">Empower creators.</div></div><div class="p-4 glass rounded-lg"><div class="font-semibold">Community</div><div class="text-sm" style="color:var(--muted)">Supportive network.</div></div></div></section>
-
-    <section id="team" class="py-10 reveal"><h2 class="text-3xl font-bold">Meet Our Team</h2><p class="mt-2" style="color:var(--muted)">Editorial board and contributors.</p><div id="teamGrid" class="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4"></div></section>
-
-    <section id="contact" class="py-10 reveal"><h2 class="text-3xl font-bold">Get In Touch</h2><p class="mt-2" style="color:var(--muted)">Questions or collaborations — reach out.</p><div class="mt-6 grid lg:grid-cols-2 gap-6"><div class="glass rounded-lg p-6"><h3 class="font-semibold">Contact Emails</h3><p class="mt-2 text-sm" style="color:var(--muted)"><strong>svisgazette@gmail.com</strong></p><p class="mt-1 text-sm" style="color:var(--muted)"><strong>avinash@hackclub.app</strong></p></div><form id="contactForm" class="glass rounded-lg p-6 grid gap-3"><input name="name" placeholder="Name *" class="p-3 rounded-md border" required /><input name="email" type="email" placeholder="Email *" class="p-3 rounded-md border" required /><input name="subject" placeholder="Subject *" class="p-3 rounded-md border" required /><textarea name="message" rows="5" placeholder="Message *" class="p-3 rounded-md border" required></textarea><div class="flex gap-3"><button type="submit" class="px-4 py-2 rounded-md" style="background:var(--accent-grad);color:#021028">Send Message 📧</button><button type="reset" class="px-4 py-2 rounded-md border">Clear</button></div><div id="contactStatus" class="text-sm text-green-600 hidden">Message sent (demo)</div></form></div></section>
-
-    <footer class="footer-centered"><div style="text-align:center"><div style="font-weight:800;font-size:18px">The Mind &amp; Muse Gazette</div><div style="color:var(--muted);margin-top:6px">Celebrating creativity through art, writing & photography</div></div><div style="width:100%;max-width:540px"><h4 style="text-align:center;margin:0 0 8px 0;font-weight:700">Subscribe to our Newsletter</h4><form id="newsletter" class="newsletter-row" style="margin:0 0 6px 0"><input id="newsletterName" placeholder="Name" class="p-2 rounded-md border flex-1" /><input id="newsletterEmail" type="email" placeholder="Email address *" class="p-2 rounded-md border flex-1" /><button id="newsletterBtn" type="button" class="px-3 py-2 rounded-md" style="background:var(--accent);color:#021028">Subscribe</button></form><div id="newsletterMsg" style="text-align:center;color:var(--muted);font-size:13px"></div></div><div class="socials" aria-hidden="false"><a href="#" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="#E1306C" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7z"/><path d="M12 7.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/><circle cx="17.5" cy="6.5" r="0.8"/></svg></a><a href="#" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="#0A66C2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 8h5v13H0zM7.5 8h4.8v1.8h.1c.67-1.27 2.3-2.6 4.73-2.6 5.06 0 6 3.34 6 7.67V21H17v-6.6c0-1.57-.03-3.6-2.2-3.6-2.2 0-2.54 1.72-2.54 3.48V21H7.5V8z"/></svg></a></div><div style="text-align:center;color:var(--muted);font-size:13px">© <span id="copyYear"></span> The Mind &amp; Muse Gazette · Made with ❤️ by Anshuman Singh</div></footer></main>
-
-  <script>
-    const KEY='svis_v5_state'; const defaultState={leaderboard:[{name:'Maya',pts:22},{name:'Rohit',pts:17},{name:'Anika',pts:11}],team:[{name:'Bhavini Garg',role:'Co-Founder & Managing Director',img:'https://i.pravatar.cc/150?img=21'},{name:'Sejal Sharma',role:'Editor-in-chief',img:'https://i.pravatar.cc/150?img=22'},{name:'Gunnika Mehar',role:'Editorial Coordinator',img:'https://i.pravatar.cc/150?img=23'},{name:'Sarthak Jain',role:'Creative Director',img:'https://i.pravatar.cc/150?img=24'},{name:'Nandana Nair',role:'Content Curator',img:'https://i.pravatar.cc/150?img=25'},{name:'Prisha Moza',role:'Content Curator',img:'https://i.pravatar.cc/150?img=26'}]}; function load(){try{return JSON.parse(localStorage.getItem(KEY))||defaultState}catch(e){return defaultState}} function save(s){localStorage.setItem(KEY,JSON.stringify(s))} let state=load();
-
-    const $=s=>document.querySelector(s); const $$=s=>Array.from(document.querySelectorAll(s));
-
-    function renderTeam(){ const g=$('#teamGrid'); g.innerHTML=''; state.team.forEach(m=>{ const d=document.createElement('div'); d.className='text-center p-3'; d.innerHTML=`<img src="${m.img}" alt="${m.name}" class="w-24 h-24 rounded-full mx-auto object-cover"><div class="mt-2 font-semibold">${m.name}</div><div class="text-sm" style="color:var(--muted)">${m.role}</div>`; g.appendChild(d); }); }
-    function renderLeaderboard(){ const ol=$('#leaderList'); ol.innerHTML=''; state.leaderboard.sort((a,b)=>b.pts-a.pts).forEach(p=>{ const li=document.createElement('li'); li.textContent=`${p.name} — ${p.pts} pts`; ol.appendChild(li); }); }
-    renderTeam(); renderLeaderboard(); document.getElementById('copyYear').textContent=new Date().getFullYear();
-
-    $('#mobileMenuBtn')?.addEventListener('click',()=>{ $('#mobileMenu').classList.toggle('hidden'); });
-
-    const links=$$('.nav-link'); links.forEach(a=>a.addEventListener('click',(e)=>{ e.preventDefault(); const t=document.querySelector(a.getAttribute('href')); if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); }));
-    const sections=Array.from(document.querySelectorAll('main > section')); const obs=new IntersectionObserver((entries)=>{ entries.forEach(entry=>{ const id=entry.target.id; const link = links.find(l=>l.getAttribute('href') === '#'+id); if(link){ if(entry.isIntersecting) link.classList.add('nav-active'); else link.classList.remove('nav-active') } if(entry.isIntersecting){ entry.target.querySelectorAll('.reveal').forEach(r=>r.classList.add('visible')); entry.target.classList.add('visible') } }); },{threshold:0.28}); sections.forEach(s=>obs.observe(s));
-
-    const waterOverlay = $('#waterOverlay'); const waterWave = document.querySelector('.water-wave'); const WATER_DURATION = 2000;
-    function playWaterTransition(targetTheme){ waterOverlay.classList.add('visible'); waterWave.style.animation = 'none'; void waterWave.offsetWidth; waterWave.style.animation = ''; animateToggleIcon(); setTimeout(()=> setThemeDirect(targetTheme), WATER_DURATION/2); setTimeout(()=> waterOverlay.classList.remove('visible'), WATER_DURATION + 80); }
-
-    const themeKey='svis_theme_v5'; function setThemeDirect(t){ document.body.setAttribute('data-theme', t); localStorage.setItem(themeKey, t); $('#themeIcon').textContent = t==='dark' ? '☀️' : '🌙'; $('#mobileThemeIcon').textContent = t==='dark' ? '☀️' : '🌙'; document.querySelector('.ambient').style.opacity = t==='dark' ? '0.6' : '0.95'; }
-    function toggleTheme(){ const cur = document.body.getAttribute('data-theme') || 'light'; const target = cur === 'light' ? 'dark' : 'light'; playWaterTransition(target); }
-    const savedTheme = localStorage.getItem(themeKey) || 'light'; setThemeDirect(savedTheme); $('#themeToggle')?.addEventListener('click',()=> toggleTheme()); $('#mobileTheme')?.addEventListener('click',()=> toggleTheme());
-
-    function animateToggleIcon(){ const icons = [$('#themeIcon'), $('#mobileThemeIcon')]; icons.forEach(icon=>{ if(!icon) return; icon.classList.remove('toggle-anim'); void icon.offsetWidth; icon.classList.add('toggle-anim'); setTimeout(()=> icon.classList.remove('toggle-anim'), 900); }); }
-
-    $('#newsletterBtn')?.addEventListener('click',()=>{ const name=$('#newsletterName').value.trim(); const em=$('#newsletterEmail').value.trim(); const msg=$('#newsletterMsg'); if(!em||!em.includes('@')){ msg.textContent='Please enter a valid email'; return; } msg.textContent=`Subscribed — thanks${name?(', '+name):''}! (demo)`; });
-
-    $('#submitForm')?.addEventListener('submit',(e)=>{ e.preventDefault(); const fm=new FormData(e.target); state.submissions=state.submissions||[]; state.submissions.push({name:fm.get('name'),email:fm.get('email'),category:fm.get('category'),title:fm.get('title')}); save(state); $('#submitStatus').classList.remove('hidden'); setTimeout(()=>$('#submitStatus').classList.add('hidden'),1600); e.target.reset(); });
-    $('#contactForm')?.addEventListener('submit',(e)=>{ e.preventDefault(); $('#contactStatus').classList.remove('hidden'); setTimeout(()=>$('#contactStatus').classList.add('hidden'),1600); e.target.reset(); });
-
-    window.addEventListener('load', ()=>{ const pre = document.getElementById('preloader'); pre.classList.add('hidden'); setTimeout(()=> pre.remove(), 800); });
-
-    function revealInit(){ document.querySelectorAll('.reveal').forEach(el=>{ const io=new IntersectionObserver((entries,obsr)=>{ entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('visible'); obsr.disconnect(); } }); },{threshold:0.2}); io.observe(el); }); }
-    revealInit();
-  </script>
 </body>
 </html>
